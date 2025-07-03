@@ -1,0 +1,132 @@
+services:
+  mongo:
+    container_name: sam2-saas-concept-mongo
+    image: mongo:6.0
+    entrypoint:
+      - bash
+      - -c
+      - |
+        exec docker-entrypoint.sh $$@
+    command: mongod --replSet rs --bind_ip_all --keyFile config/keyfile --quiet --logpath /dev/null
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    networks:
+      - sam2-saas-concept
+    ports:
+      - 27017:27017
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .dev/mongo/config/keyfile:/config/keyfile
+      - type: volume
+        source: mongodb
+        target: /data/db
+      - type: volume
+        source: mongodb-cfg
+        target: /data/configdb
+  # mongo-replicator creates a replica set for transaction support
+  mongo-replicator:
+    container_name: sam2-saas-concept-mongo-replicator
+    image: mongo:6.0
+    entrypoint:
+      - bash
+      - -c
+      - |
+        cd /scripts
+        chmod +x /setup.sh
+        bash /setup.sh
+    volumes:
+      - ./bin/setup.sh:/setup.sh
+      - ./bin:/scripts
+    environment:
+      - HOST=mongo
+      - PORT=27017
+      - USERNAME=root
+      - PASSWORD=root
+      - REPLICA_SET_NAME=rs
+    networks:
+      - sam2-saas-concept
+    depends_on:
+      - mongo
+  redis:
+    container_name: sam2-saas-concept-redis
+    image: redis:8.0.2
+    command: redis-server --appendonly yes
+    hostname: redis
+    networks:
+      - sam2-saas-concept
+    ports:
+      - 6379:6379
+  api:
+    container_name: sam2-saas-concept-api
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile
+      target: development
+      args:
+        NODE_ENV: development
+        APP_ENV: development
+    networks:
+      - sam2-saas-concept
+    volumes:
+      - ./apps/api/src:/app/apps/api/src
+      - ./packages/mailer/emails:/app/packages/mailer/emails
+      - ./packages/mailer/src:/app/packages/mailer/src
+    ports:
+      - 3001:3001
+    depends_on:
+      - redis
+      - mongo-replicator
+  migrator:
+    container_name: sam2-saas-concept-migrator
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile.migrator
+      target: development
+      args:
+        NODE_ENV: development
+        APP_ENV: development
+    networks:
+      - sam2-saas-concept
+    volumes:
+      - ./apps/api/src:/app/apps/api/src
+    depends_on:
+      - mongo-replicator
+  scheduler:
+    container_name: sam2-saas-concept-scheduler
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile.scheduler
+      target: development
+      args:
+        NODE_ENV: development
+        APP_ENV: development
+    networks:
+      - sam2-saas-concept
+    volumes:
+      - ./apps/api/src:/app/apps/api/src
+    depends_on:
+      - mongo-replicator
+  web:
+    container_name: sam2-saas-concept-web
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+      target: development
+      args:
+        NODE_ENV: development
+        APP_ENV: development
+    volumes:
+      - ./apps/web/src:/app/apps/web/src
+      - ./apps/web/public:/app/apps/web/public
+    networks:
+      - sam2-saas-concept
+    ports:
+      - 3002:3002
+networks:
+  sam2-saas-concept:
+    name: sam2-saas-concept-network
+
+volumes:
+  mongodb:
+  mongodb-cfg:
