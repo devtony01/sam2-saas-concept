@@ -1,6 +1,7 @@
 {
   "extends": ["stylelint-config-standard-scss"],
   "rules": {
+    "selector-id-pattern": null,
     "custom-property-pattern": null,
     "selector-class-pattern": null,
     "scss/no-duplicate-mixins": null,

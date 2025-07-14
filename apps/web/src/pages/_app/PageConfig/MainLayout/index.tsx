@@ -1,9 +1,7 @@
 import { FC, ReactElement } from 'react';
-import { AppShell, Stack } from '@mantine/core';
+import { AppShell } from '@mantine/core';
 
 import { accountApi } from 'resources/account';
-
-import Header from './Header';
 
 interface MainLayoutProps {
   children: ReactElement;
@@ -15,10 +13,8 @@ const MainLayout: FC<MainLayoutProps> = ({ children }) => {
   if (!account) return null;
 
   return (
-    <AppShell component={Stack} bg="gray.0">
-      <Header />
-
-      <AppShell.Main p={32} pt={104}>
+    <AppShell bg="gray.0" h="100%">
+      <AppShell.Main display="flex" pos="relative" h="100%" w="100%" inset={0}>
         {children}
       </AppShell.Main>
     </AppShell>
