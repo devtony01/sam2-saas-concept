@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import Konva from 'konva';
 import { Stage } from 'react-konva';
 
-export const Canvas = () => {
+const Canvas = () => {
   const stageRef = useRef<Konva.Stage>(null);
 
   return (
@@ -11,3 +11,5 @@ export const Canvas = () => {
     </Stage>
   );
 };
+
+export default Canvas;

@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { Box, Flex, Grid, Group, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 
-import { Canvas } from './components/Canvas';
+import { Canvas, Toolbar } from './components';
 
 const Home: NextPage = () => {
   const laptop = useMediaQuery('(max-width: 62em)');
@@ -14,13 +14,15 @@ const Home: NextPage = () => {
           pos="absolute"
           p="0rem"
           inset="1rem"
-          style={{ display: laptop ? 'flex' : 'block', flexDirection: 'column' }}
+          style={{ display: laptop ? 'flex' : 'block', flexDirection: 'column', zIndex: 4 }}
         >
           <Grid gutter="0rem" justify="space-between" align="flex-start">
             <Grid.Col span={{ base: 0, md: 3 }} hidden={laptop}>
               Sidebar
             </Grid.Col>
-            <Grid.Col span={{ base: 12, md: 6 }}>Toolbar</Grid.Col>
+            <Grid.Col span={{ base: 12, md: 6 }}>
+              <Toolbar />
+            </Grid.Col>
             <Grid.Col span={{ base: 0, md: 3 }} hidden={laptop}>
               Sidebar
             </Grid.Col>

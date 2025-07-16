@@ -4,6 +4,7 @@ import {
   CopyObjectCommandOutput,
   DeleteObjectCommand,
   DeleteObjectCommandOutput,
+  DeleteObjectsCommand,
   GetObjectCommand,
   GetObjectOutput,
   S3Client,
@@ -110,6 +111,17 @@ const deleteObject = async (fileName: string): Promise<DeleteOutput> => {
   return client.send(command).then((value) => caseUtil.toCamelCase<DeleteOutput>(value));
 };
 
+const deleteObjects = async (fileNames: string[]): Promise<DeleteOutput> => {
+  const command = new DeleteObjectsCommand({
+    Bucket: bucket,
+    Delete: {
+      Objects: fileNames.map((fileName) => ({ Key: fileName })),
+    },
+  });
+
+  return client.send(command).then((value) => caseUtil.toCamelCase<DeleteOutput>(value));
+};
+
 export default Object.assign(helpers, {
   upload,
   uploadPublic,
@@ -117,4 +129,5 @@ export default Object.assign(helpers, {
   copyObject,
   deleteObject,
   getSignedDownloadUrl,
+  deleteObjects,
 });

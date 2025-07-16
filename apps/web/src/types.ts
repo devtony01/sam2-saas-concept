@@ -1,3 +1,5 @@
+import { S3File } from 'app-types';
+
 export * from 'app-types';
 export type { ApiError } from 'services/api.service';
 
@@ -22,3 +24,13 @@ export type ListParams<T, F> = {
   filter?: T;
   sort?: SortParams<F>;
 };
+
+export type ImageState = {
+  image: S3File | null;
+};
+
+export type ImageActions = {
+  setImage: (image: S3File | null) => void;
+};
+
+export type ImageStore = ImageState & ImageActions;
