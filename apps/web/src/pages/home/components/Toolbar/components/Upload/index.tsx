@@ -38,15 +38,7 @@ const Upload = () => {
   const imageError = errors.image?.message;
 
   useEffect(() => {
-    if (typeof imageValue === 'string') {
-      // Only clear the image if it's explicitly set to empty string
-      if (imageValue === '') {
-        setImage(null);
-      }
-      return;
-    }
-
-    if (!imageValue) return;
+    if (typeof imageValue === 'string') return;
 
     const data = {
       image: imageValue,
@@ -61,7 +53,7 @@ const Upload = () => {
         handleApiError(error);
       },
     });
-  }, [imageValue, setImage, uploadPhoto]);
+  }, [imageValue]);
 
   return (
     <Stack p="lg">
@@ -116,7 +108,10 @@ const Upload = () => {
               size="sm"
               color="red"
               leftSection={<IconX size={16} />}
-              onClick={() => setValue('image', '', { shouldDirty: true })}
+              onClick={() => {
+                setValue('image', '', { shouldDirty: true });
+                setImage(null);
+              }}
             >
               Remove
             </Button>
