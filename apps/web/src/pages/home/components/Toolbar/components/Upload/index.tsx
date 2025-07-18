@@ -39,8 +39,10 @@ const Upload = () => {
 
   useEffect(() => {
     if (typeof imageValue === 'string') {
-      setImage(null);
-      setValue('image', '', { shouldDirty: true });
+      // Only clear the image if it's explicitly set to empty string
+      if (imageValue === '') {
+        setImage(null);
+      }
       return;
     }
 
@@ -59,7 +61,7 @@ const Upload = () => {
         handleApiError(error);
       },
     });
-  }, [imageValue]);
+  }, [imageValue, setImage, uploadPhoto]);
 
   return (
     <Stack p="lg">

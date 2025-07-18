@@ -1,4 +1,5 @@
 import { S3File } from 'app-types';
+import Konva from 'konva';
 
 export * from 'app-types';
 export type { ApiError } from 'services/api.service';
@@ -34,3 +35,40 @@ export type ImageActions = {
 };
 
 export type ImageStore = ImageState & ImageActions;
+
+export type Dimension = {
+  width: number;
+  height: number;
+};
+
+export type Point = {
+  x: number;
+  y: number;
+};
+
+export type KonvaState = {
+  stage: Konva.Stage | null;
+  dimension: Dimension;
+  zoom: number;
+  scrollX: number;
+  scrollY: number;
+  isDragging: boolean;
+  viewportOffset: Point;
+};
+
+export type KonvaActions = {
+  setStage: (stage: Konva.Stage | null) => void;
+  setDimension: (dimension: Dimension) => void;
+  setZoom: (zoom: number) => void;
+  setScroll: (scrollX: number, scrollY: number) => void;
+  setIsDragging: (isDragging: boolean) => void;
+  setViewportOffset: (viewportOffset: Point) => void;
+
+  // Utility functions
+  getStagePointerPosition: () => Point;
+  screenToScene: (screenX: number, screenY: number) => Point;
+  sceneToScreen: (sceneX: number, sceneY: number) => Point;
+  zoomToPoint: (point: Point, newZoom: number) => void;
+};
+
+export type KonvaStore = KonvaState & KonvaActions;

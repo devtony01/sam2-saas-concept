@@ -331,6 +331,9 @@ importers:
       socket.io-client:
         specifier: 4.7.5
         version: 4.7.5
+      use-image:
+        specifier: 1.1.4
+        version: 1.1.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       zod:
         specifier: 3.25.63
         version: 3.25.63
@@ -6648,6 +6651,12 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  use-image@1.1.4:
+    resolution: {integrity: sha512-P+swhszzHHgEb2X2yQ+vQNPCq/8Ks3hyfdXAVN133pvnvK7UK++bUaZUa5E+A3S02Mw8xOCBr9O6CLhk2fjrWA==}
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
 
   use-isomorphic-layout-effect@1.2.1:
     resolution: {integrity: sha512-tpZZ+EX0gaghDAiFR37hj5MgY6ZN55kLiPkJsKxBMZ6GZdOSPJXiOzPM984oPYZ5AnehYx5WQp1+ME8I/P/pRA==}
@@ -14266,6 +14275,11 @@ snapshots:
       react: 19.0.0
     optionalDependencies:
       '@types/react': 19.0.10
+
+  use-image@1.1.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
 
   use-isomorphic-layout-effect@1.2.1(@types/react@19.0.10)(react@19.0.0):
     dependencies:

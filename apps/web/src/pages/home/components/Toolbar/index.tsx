@@ -8,13 +8,11 @@ import { Carousel, Upload } from './components';
 const Toolbar = () => {
   const [opened, setOpened] = useState(false);
 
-  const getFormDefaultValues = () => ({
-    image: undefined,
-  });
-
   const methods = useForm({
     mode: 'onBlur',
-    defaultValues: getFormDefaultValues(),
+    defaultValues: {
+      image: null,
+    },
   });
 
   return (
@@ -37,7 +35,7 @@ const Toolbar = () => {
               </ActionIcon>
             </Tooltip>
           </Popover.Target>
-          <Popover.Dropdown pos="absolute" left="1rem" top="5rem" style={{ zIndex: 4 }}>
+          <Popover.Dropdown pos="absolute" left="1rem" top="5rem">
             <FormProvider {...methods}>
               <Stack gap="md" h="100%" w="100%" component="form">
                 <Upload />

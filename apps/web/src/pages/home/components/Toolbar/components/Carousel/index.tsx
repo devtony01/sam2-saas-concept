@@ -1,6 +1,8 @@
 import { ActionIcon, Center, Image, Loader, Paper, Text } from '@mantine/core';
 import { Carousel as MantineCarousel } from '@mantine/carousel';
 import { IconTrash } from '@tabler/icons-react';
+import { useImage } from 'stores';
+import { useStore } from 'zustand';
 
 import { imageApi } from 'resources/image';
 
@@ -9,6 +11,8 @@ import classes from './index.module.css';
 const Carousel = () => {
   const { data: images, isLoading: isImagesLoading, isError } = imageApi.useList();
   const { mutate: removePhoto, isPending: isRemoving } = imageApi.useRemove();
+
+  const { setImage } = useStore(useImage);
 
   if (isImagesLoading) {
     return (
@@ -29,7 +33,7 @@ const Carousel = () => {
   return (
     <MantineCarousel withIndicators h={200} w={200} slideSize="100%">
       {images?.results.map((img) => (
-        <MantineCarousel.Slide key={img._id} className={classes.slide}>
+        <MantineCarousel.Slide key={img._id} onClick={() => setImage(img)} className={classes.slide}>
           <Paper p="xs" shadow="sm" radius="md" withBorder pos="relative">
             <Image src={img.url} className={classes.image} fit="fill" loading="lazy" />
             <ActionIcon
