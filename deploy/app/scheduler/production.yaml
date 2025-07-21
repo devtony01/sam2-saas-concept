@@ -1,1 +1,4 @@
 service: scheduler
+image: 306011031365.dkr.ecr.us-east-1.amazonaws.com/scheduler:production-latest
+environment: production
+nodeGroup: pool-app

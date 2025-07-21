@@ -1,3 +1,7 @@
 service: api
 port: 3001
 domain: api.my-ship-app.paralect.com
+image: 306011031365.dkr.ecr.us-east-1.amazonaws.com/api:production-latest
+migratorImage: 306011031365.dkr.ecr.us-east-1.amazonaws.com/migrator:production-latest
+environment: production
+nodeGroup: pool-app

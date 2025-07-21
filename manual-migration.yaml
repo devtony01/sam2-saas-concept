@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: migrator-manual
+  namespace: staging
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: migrator
+          image: 306011031365.dkr.ecr.us-east-1.amazonaws.com/migrator:staging-c2677cd
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: api-staging-secret
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: pool-app
+  backoffLimit: 2
+  activeDeadlineSeconds: 1800
+  ttlSecondsAfterFinished: 3600
