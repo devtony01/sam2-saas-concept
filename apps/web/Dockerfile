@@ -3,7 +3,7 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk update && apk add --no-cache libc6-compat
-RUN npm install --global --no-update-notifier --no-fund turbo@2.5.4
+RUN npm install --global --no-update-notifier --no-fund turbo@2.0.6
 COPY . .
 RUN turbo prune --scope=web --docker
 
@@ -11,7 +11,7 @@ RUN turbo prune --scope=web --docker
 FROM node:22-alpine AS installer
 WORKDIR /app
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk update && apk add --no-cache libc6-compat
+RUN apk update && apk add --no-cache libc6-compat python3 python3-dev build-base cairo-dev jpeg-dev pango-dev giflib-dev pixman-dev
 RUN npm install --global --no-update-notifier --no-fund pnpm@9.5.0
 
 # First install the dependencies (as they change less often)
@@ -55,7 +55,5 @@ COPY --from=app_builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/
 COPY --from=app_builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
 
 EXPOSE 3002
-
-ENV PORT=3002
 
 CMD ["node", "apps/web/server.js"]

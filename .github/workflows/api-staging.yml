@@ -54,7 +54,7 @@ jobs:
       helm_chart_dir: "deploy/app/api"
       aws_region: ${{ vars.AWS_REGION }}
       aws_access_key_id: ${{ vars.AWS_ACCESS_KEY_ID }}
-      aws_eks_name: ${{ vars.CLUSTER_NAME_PRODUCTION }}
+      aws_eks_name: ${{ vars.CLUSTER_NAME_STAGING }}
       node_group: ${{ vars.CLUSTER_NODE_GROUP }}
       image_tag: ${{ needs.build-api.outputs.image_tag }}
       migrator_image_tag: ${{ needs.build-migrator.outputs.image_tag }}
@@ -69,6 +69,6 @@ jobs:
       helm_chart_dir: "deploy/app/scheduler"
       aws_region: ${{ vars.AWS_REGION }}
       aws_access_key_id: ${{ vars.AWS_ACCESS_KEY_ID }}
-      aws_eks_name: ${{ vars.CLUSTER_NAME_PRODUCTION }}
+      aws_eks_name: ${{ vars.CLUSTER_NAME_STAGING }}
       node_group: ${{ vars.CLUSTER_NODE_GROUP }}
       image_tag: ${{ needs.build-scheduler.outputs.image_tag }}

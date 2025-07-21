@@ -1,0 +1,10 @@
+* s3 file crud
+* setup canvas
+* setup tools
+* setup history
+* subscribe to coordinates event
+* send coordinates to inference server
+* display masks on canvas
+* setup paddle
+* policies
+* deploy

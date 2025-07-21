@@ -10,8 +10,8 @@ RUN turbo prune --scope=api --docker
 # INSTALLER - Stage 2
 FROM node:22-alpine AS installer
 WORKDIR /app
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk update && apk add --no-cache libc6-compat
+# Install build dependencies
+RUN apk update && apk add --no-cache libc6-compat python3 make g++ pkgconfig pixman-dev cairo-dev pango-dev jpeg-dev giflib-dev
 RUN npm install --global --no-update-notifier --no-fund pnpm@9.5.0
 
 # First install the dependencies (as they change less often)

@@ -31,6 +31,6 @@ jobs:
       helm_chart_dir: "deploy/app/web"
       aws_region: ${{ vars.AWS_REGION }}
       aws_access_key_id: ${{ vars.AWS_ACCESS_KEY_ID }}
-      aws_eks_name: ${{ vars.CLUSTER_NAME_PRODUCTION }}
+      aws_eks_name: ${{ vars.CLUSTER_NAME_STAGING }}
       node_group: ${{ vars.CLUSTER_NODE_GROUP }}
       image_tag: ${{ needs.build.outputs.image_tag }}
