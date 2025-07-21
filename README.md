@@ -1,152 +1,213 @@
-# k8sec
+# SAM2 SaaS Concept 🎨
 
-[![GitHub Actions](https://github.com/dtan4/k8sec/workflows/Test/badge.svg)](https://github.com/dtan4/k8sec/actions?query=workflow%3ATest+branch%3Amaster)
-[![GitHub release](https://img.shields.io/github/release/dtan4/k8sec.svg)](https://github.com/dtan4/k8sec/releases)
+[![GitHub Actions](https://github.com/devtony01/sam2-saas-concept/actions/workflows/api-staging.yml/badge.svg)](https://github.com/devtony01/sam2-saas-concept/actions)
+[![GitHub Actions](https://github.com/devtony01/sam2-saas-concept/actions/workflows/web-staging.yml/badge.svg)](https://github.com/devtony01/sam2-saas-concept/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-CLI tool to manage [Kubernetes Secrets](http://kubernetes.io/docs/user-guide/secrets/) easily
+An AI-powered image segmentation platform built with the **Segment Anything Model 2 (SAM2)**. This SaaS application allows users to upload images and perform intelligent segmentation using cutting-edge AI technology.
 
-## Requirements
+## 🚀 Live Demo
 
-Kubernetes 1.18 or above
+- **Staging**: [sam2-saas.is-not-a.dev](https://sam2-saas.is-not-a.dev)
+- **Production**: [sam2-saas-prod.is-not-a.dev](https://sam2-saas-prod.is-not-a.dev)
+- **API Documentation**: [api.sam2-saas.is-not-a.dev](https://api.sam2-saas.is-not-a.dev)
 
-## Installation
+## ✨ Features
 
-### Using Homebrew (OS X only)
+- 🖼️ **Image Upload & Processing** - Drag and drop or browse to upload images
+- 🤖 **AI-Powered Segmentation** - Powered by Meta's SAM2 model
+- 🎨 **Interactive Segmentation** - Click-based prompt segmentation
+- 📱 **Responsive Design** - Works seamlessly on desktop and mobile
+- 🔐 **User Authentication** - Secure JWT-based authentication
+- 📊 **Project Management** - Organize your segmentation projects
+- ☁️ **Cloud Storage** - Secure image and result storage
+- 🌐 **RESTful API** - Full API access for developers
 
-Formula is available at [dtan4/homebrew-dtan4](https://github.com/dtan4/homebrew-tools).
+## 🏗️ Architecture
+
+### Frontend
+- **Framework**: Next.js 15 with React 19
+- **UI Library**: Mantine UI components
+- **State Management**: Zustand
+- **HTTP Client**: Axios with React Query
+- **Styling**: CSS Modules with PostCSS
+
+### Backend
+- **Runtime**: Node.js with TypeScript
+- **Framework**: Koa.js
+- **Database**: MongoDB Atlas
+- **Cache**: Redis (Upstash)
+- **Authentication**: JWT tokens
+- **File Upload**: AWS SDK for S3-compatible storage
+
+### AI/ML
+- **Model**: Segment Anything Model 2 (SAM2)
+- **Image Processing**: Canvas API integration
+- **Real-time Processing**: WebSocket support
+
+### Infrastructure
+- **Container Orchestration**: Kubernetes (AWS EKS)
+- **CI/CD**: GitHub Actions
+- **SSL/TLS**: Let's Encrypt with cert-manager
+- **Load Balancing**: NGINX Ingress Controller
+- **Monitoring**: Kubernetes metrics
+
+## 🛠️ Technology Stack
+
+```
+┌─────────────────┬─────────────────┬─────────────────┐
+│    Frontend     │     Backend     │  Infrastructure │
+├─────────────────┼─────────────────┼─────────────────┤
+│ Next.js 15      │ Node.js         │ Kubernetes      │
+│ React 19        │ Koa.js          │ AWS EKS         │
+│ TypeScript      │ TypeScript      │ Docker          │
+│ Mantine UI      │ MongoDB Atlas   │ GitHub Actions  │
+│ Zustand         │ Redis (Upstash) │ Let's Encrypt   │
+│ React Query     │ JWT Auth        │ NGINX Ingress   │
+└─────────────────┴─────────────────┴─────────────────┘
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 20+
+- pnpm 8+
+- Docker (optional)
+- Kubernetes cluster (for deployment)
+
+### Local Development
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/devtony01/sam2-saas-concept.git
+cd sam2-saas-concept
+```
+
+2. **Install dependencies**
+```bash
+pnpm install
+```
+
+3. **Set up environment variables**
+```bash
+# Copy environment templates
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env
+
+# Update with your credentials
+```
+
+4. **Start development servers**
+```bash
+# Start all services
+pnpm dev
+
+# Or start individually
+pnpm dev:api    # API server (port 3001)
+pnpm dev:web    # Web app (port 3002)
+```
+
+### Environment Variables
+
+#### API (`apps/api/.env`)
+```env
+# Database
+MONGO_URI=mongodb://localhost:27017/sam2-saas
+REDIS_URI=redis://localhost:6379
+
+# Application URLs
+API_URL=http://localhost:3001
+WEB_URL=http://localhost:3002
+
+# Optional: External services
+RESEND_API_KEY=your_resend_key
+CLOUD_STORAGE_ENDPOINT=your_s3_endpoint
+```
+
+#### Web (`apps/web/.env`)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001
+```
+
+## 📦 Deployment
+
+The application uses GitOps-style deployment with GitHub Actions:
+
+### Staging Deployment
+- **Trigger**: Push to `main` branch
+- **Environment**: Staging cluster
+- **URL**: [sam2-saas.is-not-a.dev](https://sam2-saas.is-not-a.dev)
+
+### Production Deployment
+- **Trigger**: Push to `production` branch
+- **Environment**: Production cluster  
+- **URL**: [sam2-saas-prod.is-not-a.dev](https://sam2-saas-prod.is-not-a.dev)
+
+### Manual Deployment
+```bash
+# Deploy to staging
+kubectl apply -f deploy/app/web/staging.yaml
+kubectl apply -f deploy/app/api/staging.yaml
+
+# Deploy to production
+kubectl apply -f deploy/app/web/production.yaml
+kubectl apply -f deploy/app/api/production.yaml
+```
+
+## 🧪 Testing
 
 ```bash
-brew tap dtan4/tools
-brew install k8sec
+# Run all tests
+pnpm test
+
+# Run API tests
+pnpm test:api
+
+# Run web tests
+pnpm test:web
+
+# Run with coverage
+pnpm test:coverage
 ```
 
-### Precompiled binary
+## 📝 API Documentation
 
-Precompiled binaries for Windows, OS X, Linux are available at [Releases](https://github.com/dtan4/k8sec/releases).
+The API provides endpoints for:
 
-### From source
+- **Authentication**: `/auth/signin`, `/auth/signup`
+- **Image Processing**: `/images/upload`, `/images/segment`
+- **Projects**: `/projects`, `/projects/:id`
+- **Health**: `/health`
 
-```sh-session
-go get -d github.com/dtan4/k8sec
-cd $GOPATH/src/github.com/dtan4/k8sec
-make install
-```
+Full API documentation available at: [api.sam2-saas.is-not-a.dev/docs](https://api.sam2-saas.is-not-a.dev/docs)
 
-## Usage
+## 🤝 Contributing
 
-### Global options
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
-|Option|Description|Required|Default|
-|---------|-----------|-------|-------|
-|`--context=CONTEXT`|Kubernetes context|||
-|`--kubeconfig=KUBECONFIG`|Path of kubeconfig||`~/.kube/config`|
-|`-n`, `--namespace=NAMESPACE`|Kubernetes namespace||`default`|
-|`-h`, `-help`|Print command line usage|||
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-### `k8sec list`
+## 📄 License
 
-List secrets
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-```sh-session
-$ k8sec list [--base64] [NAME]
+## 👤 Author
 
-# Example
-$ k8sec list rails
-NAME    TYPE    KEY             VALUE
-rails   Opaque  database-url    "postgres://example.com:5432/dbname"
+**Tony** ([@devtony01](https://github.com/devtony01))
+- Email: chibuezeogbuji01@gmail.com
+- GitHub: [@devtony01](https://github.com/devtony01)
 
-# Show values as base64-encoded string
-$ k8sec list --base64 rails
-NAME    TYPE    KEY             VALUE
-rails   Opaque  database-url    cG9zdGdyZXM6Ly9leGFtcGxlLmNvbTo1NDMyL2RibmFtZQ==
-```
+## 🙏 Acknowledgments
 
-### `k8sec set`
+- [Meta AI](https://ai.meta.com/) for the Segment Anything Model 2
+- [Mantine](https://mantine.dev/) for the beautiful UI components
+- [Open Domains](https://github.com/open-domains/register) for free domain hosting
+- The open-source community for amazing tools and libraries
 
-Set secrets
+---
 
-```sh-session
-$ k8sec set [--base64] NAME KEY1=VALUE1 [KEY2=VALUE2 ...]
-
-$ k8sec set rails rails-env=production
-rails
-
-# Set base64-encoded value
-$ echo -n dtan4 | base64
-ZHRhbjQ=
-$ k8sec set --base64 rails foo=ZHRhbjQ=
-rails
-
-# Result
-$ k8sec list rails
-NAME    TYPE    KEY             VALUE
-rails   Opaque  database-url    "postgres://example.com:5432/dbname"
-rails   Opaque  foo             "dtan4"
-```
-
-### `k8sec unset`
-
-Unset secrets
-
-```sh-session
-$ k8sec unset NAME KEY1 KEY2...
-
-# Example
-$ k8sec unset rails rails-env
-```
-
-### `k8sec load`
-
-Load secrets from dotenv (key=value) format text
-
-```sh-session
-$ k8sec load [-f FILENAME] NAME
-
-# Example
-$ cat .env
-database-url="postgres://example.com:5432/dbname"
-$ k8sec load -f .env rails
-
-# Load from stdin
-$ cat .env | k8sec load rails
-```
-
-### `k8sec dump`
-
-Dump secrets as dotenv (key=value) format
-
-```sh-session
-$ k8sec dump [-f FILENAME] [--noquotes] [NAME]
-
-# Example
-$ k8sec dump rails
-database-url="postgres://example.com:5432/dbname"
-
-# Save as .env
-$ k8sec dump -f .env rails
-$ cat .env
-database-url="postgres://example.com:5432/dbname"
-
-# Save as .env without qoutes
-$ k8sec dump -f .env --noquotes rails
-$ cat .env
-database-url=postgres://example.com:5432/dbname
-```
-
-## Contribution
-
-1. Fork ([https://github.com/dtan4/k8sec/fork](https://github.com/dtan4/k8sec/fork))
-1. Create a feature branch
-1. Commit your changes
-1. Rebase your local changes against the master branch
-1. Run test suite with the `go test ./...` command and confirm that it passes
-1. Run `gofmt -s`
-1. Create a new Pull Request
-
-## Author
-
-[dtan4](https://github.com/dtan4)
-
-## License
-
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+⭐ If you find this project helpful, please give it a star!
