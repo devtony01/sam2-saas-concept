@@ -1,6 +1,6 @@
 service: web
 port: 3000
-domain: my-ship-app.paralect.com
+domain: sam2-saas-prod.is-not-a.dev
 image: 306011031365.dkr.ecr.us-east-1.amazonaws.com/web:production-latest
 environment: production
 nodeGroup: pool-app
