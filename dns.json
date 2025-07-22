@@ -1,0 +1,48 @@
+{
+  "name": "sam2-saas-prod.is-not-a.dev",
+  "description": "DNS configuration for SAM2 SaaS production with email signing",
+  "repo": "https://github.com/devtony01/sam2-saas-concept",
+  "proxied": false,
+  "record": {
+    "A": ["185.199.108.153", "185.199.109.153", "185.199.110.153", "185.199.111.153"],
+    "AAAA": ["2606:50c0:8000::153", "2606:50c0:8001::153", "2606:50c0:8002::153", "2606:50c0:8003::153"],
+    "MX": [
+      {
+        "priority": 10,
+        "value": "feedback-smtp.us-east-1.amazonses.com"
+      }
+    ],
+    "TXT": [
+      "v=spf1 include:amazonses.com ~all",
+      "v=DMARC1; p=none;"
+    ],
+    "CNAME": {
+      "send": "feedback-smtp.us-east-1.amazonses.com",
+      "api": "sam2-saas-prod.is-not-a.dev",
+      "www": "sam2-saas-prod.is-not-a.dev"
+    }
+  },
+  "subdomains": {
+    "send.sam2-saas-prod.is-not-a.dev": {
+      "MX": [
+        {
+          "priority": 10,
+          "value": "feedback-smtp.us-east-1.amazonses.com"
+        }
+      ],
+      "TXT": [
+        "v=spf1 include:amazonses.com ~all"
+      ]
+    },
+    "_dmarc.sam2-saas-prod.is-not-a.dev": {
+      "TXT": [
+        "v=DMARC1; p=none;"
+      ]
+    },
+    "resend._domainkey.sam2-saas-prod.is-not-a.dev": {
+      "TXT": [
+        "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDfVM4sMAa9ppIBm+D8SLRZsnEV+JWsWu4CBTCxOyzYTDN8X5tkBCueZrIQKkyy31pM72MMVvASkqOFBO+PmVI5hDxxI3+RZ5QeojSMrkm6kWa8Lz2XafYPv1NgHHGuGSoGhiYOIxqFCEytxnZurqtSy/C0E+Qx2zs9AaUbDObXVwIDAQAB"
+      ]
+    }
+  }
+}
